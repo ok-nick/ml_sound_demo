@@ -1,0 +1,16 @@
+[project]
+name = "whisper-demo"
+version = "0.1.0"
+description = "Whisper AI demo"
+authors = [{ email = "nick.libraries@gmail.com" }]
+dependencies = []
+
+[tool.pyright]
+typeCheckingMode = "off"
+
+[tool.ruff]
+fixable = ["ALL"]
+select = ["ALL"]
+ignore = ["D", "T20", "ERA", "INP", "ANN", "FIX", "TD"]
+
+[tool.black]
