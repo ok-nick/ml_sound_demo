@@ -1,4 +1,4 @@
-# `whisper-demo`
+# `ml-sound-demo`
 
 ## Outstanding Questions
 * How are projects similar to this usually structured? File structure? API structure?

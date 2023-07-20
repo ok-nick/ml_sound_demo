@@ -1,5 +1,5 @@
 [project]
-name = "whisper-demo"
+name = "ml-sound-demo"
 version = "0.1.0"
 description = "Whisper AI demo"
 authors = [{ email = "nick.libraries@gmail.com" }]

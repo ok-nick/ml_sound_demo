@@ -51,3 +51,4 @@ wer = load("wer")
 print(wer.compute(references=result["reference"], predictions=result["prediction"]))
 
 # TODO: cosine similarity
+# https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html#sklearn.metrics.pairwise.cosine_similarity
