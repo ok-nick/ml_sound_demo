@@ -19,19 +19,25 @@
     system = "x86_64-linux";
     pkgs = import nixpkgs {
       inherit system;
-      config.allowUnfree = true;
+      config = {
+        allowUnfree = true;
+        cudaSupport = true;
+      };
     };
   in {
     devShells.${system}.default = pkgs.mkShellNoCC {
       packages = with pkgs; [
+        ffmpeg
+
         # TODO: migrate to 311 when nixpkgs fixes derivations
         python310Packages.transformers
-        python310Packages.torch # TODO use cachix for cuda version
+        python310Packages.torch-bin
         python310Packages.datasets
         python310Packages.soundfile
         python310Packages.librosa
         python310Packages.evaluate
         python310Packages.jiwer
+        python310Packages.scikit-learn
       ];
     };
   };
