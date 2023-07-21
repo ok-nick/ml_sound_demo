@@ -20,7 +20,7 @@ model.config.forced_decoder_ids = processor.get_decoder_prompt_ids(
     task="transcribe",
 )
 
-def map_to_pred(batch):
+def map_prediction(batch):
     audio = batch["audio"]
     input_features = processor(
         audio["array"],
@@ -64,4 +64,4 @@ class TranscribeResult:
 
 
 def what_text(dataset: Dataset) -> TranscribeResult:
-    return TranscribeResult(dataset.map(map_to_pred))
+    return TranscribeResult(dataset.map(map_prediction))
