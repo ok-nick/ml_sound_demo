@@ -51,7 +51,7 @@ class TranscribeResult:
 
     def text(self) -> list[str]:
         """Returns the predicted texts from the audios in the dataset."""
-        return self.result["prediction"]
+        return self.result["transcription"]
 
     def word_error_rate(self) -> float:
         """Returns the word error rate of the predicted texts."""
