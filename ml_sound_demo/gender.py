@@ -1,3 +1,10 @@
+# TODO:
+# what_gender() - returns GenderResult
+# GenderResult Class:
+#   gender() - returns gender
+#   plot_confusion_matrix() - plots confusion matrix
+#   plot_roc_curve() - plots roc curve
+
 import evaluate
 import numpy as np
 from datasets import load_dataset
