@@ -1,24 +1,23 @@
-# TODO:
-# what_text() - returns TranscribeResult
-# TranscribeResult Class:
-#   text() - returns text
-#   word_error_rate() - returns wer
-#   cosine_similarity() - returns cosine similarity
-
 import torch
+from sklearn.feature_extraction.text import TfidfVectorizer
 from datasets import (
     Dataset,
 )
+from sklearn.feature_extraction.text import CountVectorizer
 from evaluate import load
 from numpy import ndarray
+from sklearn.metrics.pairwise import cosine_similarity
 from transformers import TensorType, WhisperForConditionalGeneration, WhisperProcessor
 
-processor = WhisperProcessor.from_pretrained("openai/whisper-large-v2")
-model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-large-v2")
+# processor = WhisperProcessor.from_pretrained("openai/whisper-large-v2")
+# model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-large-v2")
+processor = WhisperProcessor.from_pretrained("openai/whisper-tiny")
+model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-tiny")
 model.config.forced_decoder_ids = processor.get_decoder_prompt_ids(
     language="english",
     task="transcribe",
 )
+
 
 def map_prediction(batch):
     audio = batch["audio"]
@@ -41,7 +40,6 @@ def map_prediction(batch):
     return batch
 
 
-
 class TranscribeResult:
     result: Dataset
 
@@ -59,9 +57,24 @@ class TranscribeResult:
         )
 
     def cosine_similarity(self) -> ndarray:
-        # https://scikit-learn.org/stable/modules/generated/sklearn.metrics.pairwise.cosine_similarity.html#sklearn.metrics.pairwise.cosine_similarity
-        pass
+        vectorizer = TfidfVectorizer()
+        return cosine_similarity(
+            vectorizer.fit_transform(self.result["reference"]),
+            vectorizer.transform(self.result["prediction"]),
+        )
 
 
+# TODO: accept data
 def what_text(dataset: Dataset) -> TranscribeResult:
+    # TODO: batch mapping
     return TranscribeResult(dataset.map(map_prediction))
+
+
+# TODO: for the input wav file requirement
+#       but we still need the sentence field for performance measurements..
+# class Transcribe:
+#     def from_file(path: str):
+#         pass
+#
+#     def from_files(paths: list[str]):
+#         pass
