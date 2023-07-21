@@ -1,11 +1,10 @@
 import torch
-from sklearn.feature_extraction.text import TfidfVectorizer
 from datasets import (
     Dataset,
 )
-from sklearn.feature_extraction.text import CountVectorizer
 from evaluate import load
 from numpy import ndarray
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from transformers import TensorType, WhisperForConditionalGeneration, WhisperProcessor
 
@@ -19,6 +18,7 @@ model.config.forced_decoder_ids = processor.get_decoder_prompt_ids(
 )
 
 
+# TODO: make dataset agnostic
 def map_prediction(batch):
     audio = batch["audio"]
     input_features = processor(
@@ -41,15 +41,20 @@ def map_prediction(batch):
 
 
 class TranscribeResult:
+    """Transcription results and metrics of given dataset."""
+
     result: Dataset
 
     def __init__(self, result: Dataset):
+        """Constructs a TranscribeResult with the processed dataset."""
         self.result = result
 
     def text(self) -> list[str]:
+        """Returns the predicted texts from the audios in the dataset."""
         return self.result["prediction"]
 
     def word_error_rate(self) -> float:
+        """Returns the word error rate of the predicted texts."""
         # TODO: cache `wer`?
         return load("wer").compute(
             references=self.result["reference"],
@@ -57,6 +62,7 @@ class TranscribeResult:
         )
 
     def cosine_similarity(self) -> ndarray:
+        """Returns the cosine similarity of the predicted texts."""
         vectorizer = TfidfVectorizer()
         return cosine_similarity(
             vectorizer.fit_transform(self.result["reference"]),
@@ -66,6 +72,7 @@ class TranscribeResult:
 
 # TODO: accept data
 def what_text(dataset: Dataset) -> TranscribeResult:
+    """Returns a TranscribeResult containing predictions and metrics from the given dataset."""
     # TODO: batch mapping
     return TranscribeResult(dataset.map(map_prediction))
 
