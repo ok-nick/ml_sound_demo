@@ -38,6 +38,7 @@
         python310Packages.evaluate
         python310Packages.jiwer
         python310Packages.scikit-learn
+        python310Packages.matplotlib
       ];
     };
   };

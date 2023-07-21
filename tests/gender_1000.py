@@ -11,9 +11,16 @@ from datasets import (
 
 from ml_sound_demo import what_gender
 
-dataset = load_dataset(
-    "mozilla-foundation/common_voice_13_0", "en", split="validation[:10]",
-).cast_column("audio", Audio(sampling_rate=16000))
+dataset = (
+    load_dataset(
+        "mozilla-foundation/common_voice_13_0",
+        "en",
+        split="validation",
+    )
+    .filter(lambda x: x["gender"] != "")
+    .select(range(905, 915))
+    .cast_column("audio", Audio(sampling_rate=16000))
+)
 
 result = what_gender(dataset)
 print(result.gender())
