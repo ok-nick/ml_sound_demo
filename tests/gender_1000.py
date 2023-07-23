@@ -1,13 +1,12 @@
 import sys
 
-# TODO: use testing framework
-sys.path.append("../ml_sound_demo")
-
-
 from datasets import (
     Audio,
     load_dataset,
 )
+
+# TODO: use testing framework
+sys.path.append("../ml_sound_demo")
 
 from ml_sound_demo import what_gender
 

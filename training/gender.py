@@ -73,7 +73,7 @@ model = AutoModelForAudioClassification.from_pretrained(
 )
 
 training_args = TrainingArguments(
-    output_dir="gender_classification_model",  # TODO: create models dir
+    output_dir="output/gender_classification_model",
     evaluation_strategy="epoch",
     save_strategy="epoch",
     learning_rate=3e-5,

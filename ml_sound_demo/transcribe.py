@@ -8,10 +8,10 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from transformers import TensorType, WhisperForConditionalGeneration, WhisperProcessor
 
-# processor = WhisperProcessor.from_pretrained("openai/whisper-large-v2")
-# model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-large-v2")
-processor = WhisperProcessor.from_pretrained("openai/whisper-tiny")
-model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-tiny")
+processor = WhisperProcessor.from_pretrained("openai/whisper-large-v2")
+model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-large-v2")
+# processor = WhisperProcessor.from_pretrained("openai/whisper-tiny")
+# model = WhisperForConditionalGeneration.from_pretrained("openai/whisper-tiny")
 model.config.forced_decoder_ids = processor.get_decoder_prompt_ids(
     language="english",
     task="transcribe",
@@ -70,18 +70,8 @@ class TranscribeResult:
         )
 
 
-# TODO: accept data
+# TODO: accept datasetiter, datasetdict, etc.
 def what_text(dataset: Dataset) -> TranscribeResult:
     """Returns a TranscribeResult containing predictions and metrics from the given dataset."""
     # TODO: batch mapping
     return TranscribeResult(dataset.map(map_prediction))
-
-
-# TODO: for the input wav file requirement
-#       but we still need the sentence field for performance measurements..
-# class Transcribe:
-#     def from_file(path: str):
-#         pass
-#
-#     def from_files(paths: list[str]):
-#         pass

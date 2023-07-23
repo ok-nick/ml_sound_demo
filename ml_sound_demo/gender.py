@@ -7,11 +7,10 @@ from transformers import (
     pipeline,
 )
 
-# TODO: can I cache this?
 classifier = pipeline(
     "audio-classification",
-    # TODO: customizable
-    model="gender_classification_model/checkpoint-110",
+    # TODO: make customizable
+    model="output/gender_classification_model/checkpoint-110",
 )
 
 
@@ -28,6 +27,7 @@ def gender_to_id(gender: str) -> int:
             return -1
 
 
+# TODO: make dataset agnostic
 def map_prediction(batch):
     result = classifier(batch["audio"]["path"])
     batch["result"] = result
@@ -80,4 +80,5 @@ class GenderResult:
 
 def what_gender(dataset: Dataset) -> GenderResult:
     """Returns a GenderResult containing predictions and metrics from the given Dataset."""
-    return GenderResult(dataset.map(map_prediction, load_from_cache_file=False))
+    # TODO: batch
+    return GenderResult(dataset.map(map_prediction))
