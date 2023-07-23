@@ -14,9 +14,10 @@ dataset = (
     load_dataset(
         "mozilla-foundation/common_voice_13_0",
         "en",
-        split="validation[:1000]",
+        split="validation",
     )
     .filter(lambda x: x["gender"] != "")
+    .select(range(1001))
     # .select(range(905, 915))
     .cast_column("audio", Audio(sampling_rate=16000))
 )
