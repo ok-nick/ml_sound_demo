@@ -1,3 +1,4 @@
+import csv
 import sys
 from pathlib import Path
 
@@ -25,3 +26,8 @@ print(result.cosine_similarity())
 
 with Path("output/transcription_100.txt").open("w") as output:
     output.write("\n".join(result.text()))
+
+with Path("output/transcription_100.csv").open("w") as output:
+    writer = csv.writer(output)
+    for line in result.text():
+        writer.writerow([line])
